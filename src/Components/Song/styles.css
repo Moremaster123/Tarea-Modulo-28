@@ -1,0 +1,16 @@
+.song {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.song h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.song p {
+    margin: 5px 0;
+}

@@ -1,0 +1,15 @@
+.search-results {
+    padding: 20px;
+}
+
+.search-results h2 {
+    margin-bottom: 15px;
+}
+
+.search-results button {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
