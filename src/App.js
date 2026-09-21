@@ -1,55 +1,76 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Header from './Components/Header/Header';
+
+import SearchBar from './Components/SearchBar';
+
 import SearchResults from './Components/SearchResults';
+
 import Library from './Components/Library';
+
+import SongDetail from './Components/SongDetail';
+
 import './App.css';
 
 function App() {
-    const [searchResults] = useState([
-        {
-            id: 1,
-            title: 'Billie Jean',
-            artist: 'Michael Jackson',
-            album: 'Thriller',
-            duration: '4:54'
-        },
-        {
-            id: 2,
-            title: 'Bohemian Rhapsody',
-            artist: 'Queen',
-            album: 'A Night at the Opera',
-            duration: '5:55'
-        },
-        {
-            id: 3,
-            title: 'Imagine',
-            artist: 'John Lennon',
-            album: 'Imagine',
-            duration: '3:07'
-        }
-    ]);
 
-    const [library, setLibrary] = useState([]);
+    const [artist, setArtist] = useState('');
 
-    const addToLibrary = (song) => {
-        setLibrary(prev => [...prev, song]);
+    const [librarySongs, setLibrarySongs] = useState([]);
+
+    const handleSearch = (searchArtist) => {
+        setArtist(searchArtist);
     };
 
-    useEffect(() => {
-        console.log('La biblioteca se actualizó:', library);
-    }, [library]);
+    const handleAddToLibrary = (song) => {
+        setLibrarySongs((currentSongs) => {
+
+            const alreadyExists = currentSongs.some(
+                currentSong => currentSong.id === song.id
+            );
+
+            if (alreadyExists) {
+                return currentSongs;
+            }
+
+            return [...currentSongs, song];
+        });
+    };
 
     return (
-        <div className="App">
+        <BrowserRouter>
+
             <Header />
 
-            <SearchResults 
-                songs={searchResults} 
-                onAddToLibrary={addToLibrary}
-            />
+            <SearchBar onSearch={handleSearch} />
 
-            <Library songs={library} />
-        </div>
+            <Routes>
+
+                <Route
+                    path="/"
+                    element={
+                        <>
+                            <SearchResults
+                                artist={artist}
+                                onAddToLibrary={handleAddToLibrary}
+                            />
+
+                            <Library songs={librarySongs} />
+                        </>
+                    }
+                />
+
+                <Route
+                    path="/song/:id"
+                    element={<SongDetail />}
+                />
+
+            </Routes>
+
+        </BrowserRouter>
     );
 }
 
