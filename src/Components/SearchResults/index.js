@@ -6,54 +6,61 @@ import Song from '../Song/Song';
 
 import useFetch from '../../hooks/useFetch';
 
-import './styles.css';
+import {
+    SearchResultsContainer,
+    Title,
+    Message,
+    ResultItem,
+    DetailsButton,
+    LibraryButton
+} from './SearchResults.styles';
 
 const SearchResults = ({ artist, onAddToLibrary }) => {
 
     const url = artist
-    ? `https://www.theaudiodb.com/api/v1/json/2/searchalbum.php?s=${encodeURIComponent(artist)}`
-    : '';
+        ? `https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=${encodeURIComponent(artist)}`
+        : '';
 
     const { data, loading, error, retryFetch } = useFetch(url);
 
     if (!artist) {
         return (
-            <section className="search-results">
-                <h2>Resultados de búsqueda</h2>
-                <p>Busca un artista para ver sus álbumes.</p>
-            </section>
+            <SearchResultsContainer>
+                <Title>Resultados de búsqueda</Title>
+                <Message>Busca un artista para ver sus álbumes.</Message>
+            </SearchResultsContainer>
         );
     }
 
     if (loading) {
         return (
-            <section className="search-results">
-                <h2>Resultados de búsqueda</h2>
-                <p>Cargando...</p>
-            </section>
+            <SearchResultsContainer>
+                <Title>Resultados de búsqueda</Title>
+                <Message>Cargando...</Message>
+            </SearchResultsContainer>
         );
     }
 
     if (error) {
         return (
-            <section className="search-results">
-                <h2>Resultados de búsqueda</h2>
-                <p>
+            <SearchResultsContainer>
+                <Title>Resultados de búsqueda</Title>
+                <Message>
                     Ocurrió un error al cargar los resultados.
-                </p>
+                </Message>
                 <button onClick={retryFetch}>
                     Reintentar
                 </button>
-            </section>
+            </SearchResultsContainer>
         );
     }
 
     if (!data || !data.album || data.album.length === 0) {
         return (
-            <section className="search-results">
-                <h2>Resultados de búsqueda</h2>
-                <p>No se encontraron resultados.</p>
-            </section>
+            <SearchResultsContainer>
+                <Title>Resultados de búsqueda</Title>
+                <Message>No se encontraron resultados.</Message>
+            </SearchResultsContainer>
         );
     }
 
@@ -66,11 +73,11 @@ const SearchResults = ({ artist, onAddToLibrary }) => {
     }));
 
     return (
-        <section className="search-results">
-            <h2>Resultados de búsqueda</h2>
+        <SearchResultsContainer>
+            <Title>Resultados de búsqueda</Title>
 
             {songs.map(song => (
-                <div key={song.id}>
+                <ResultItem key={song.id}>
                     <Song
                         title={song.title}
                         artist={song.artist}
@@ -79,21 +86,23 @@ const SearchResults = ({ artist, onAddToLibrary }) => {
                     />
 
                     <Link to={`/song/${song.id}`}>
-                        <button>
+                        <DetailsButton>
                             Ver detalles
-                        </button>
+                        </DetailsButton>
                     </Link>
 
                     {onAddToLibrary && (
-                        <button onClick={() => onAddToLibrary(song)}>
+                        <LibraryButton
+                            $added={false}
+                            onClick={() => onAddToLibrary(song)}
+                        >
                             Agregar a mi biblioteca
-                        </button>
+                        </LibraryButton>
                     )}
-                </div>
+                </ResultItem>
             ))}
-        </section>
+        </SearchResultsContainer>
     );
 };
 
 export default SearchResults;
-

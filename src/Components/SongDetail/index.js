@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { useParams, Link } from 'react-router-dom';
@@ -9,7 +8,7 @@ const SongDetail = () => {
 
     const { id } = useParams();
 
-    const url = `https://www.theaudiodb.com/api/v1/json/2/album.php?m=${id}`;
+    const url = `https://www.theaudiodb.com/api/v1/json/123/album.php?m=${id}`;
 
     const { data, loading, error } = useFetch(url);
 
@@ -77,4 +76,3 @@ const SongDetail = () => {
 };
 
 export default SongDetail;
-

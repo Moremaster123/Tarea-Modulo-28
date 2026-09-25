@@ -1,14 +1,19 @@
+
 import React from 'react';
 
 import Song from '../Song/Song';
 
-import './styles.css';
+import {
+    LibraryContainer,
+    LibraryTitle
+} from './Library.styles';
 
 const Library = ({ songs }) => {
 
     return (
-        <section className="library">
-            <h2>Mi biblioteca</h2>
+        <LibraryContainer>
+            <LibraryTitle>Mi biblioteca</LibraryTitle>
+
             {songs.map(song => (
                 <Song
                     key={song.id}
@@ -18,7 +23,7 @@ const Library = ({ songs }) => {
                     year={song.year}
                 />
             ))}
-        </section>
+        </LibraryContainer>
     );
 };
 

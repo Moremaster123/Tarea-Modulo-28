@@ -1,13 +1,25 @@
-import React from 'react';
-import './styles.css';
 
-const Header = () => {
+import React from 'react';
+import { Link } from 'react-router-dom';
+import {
+    HeaderContainer,
+    Title,
+    Navigation,
+    NavLink
+} from './Header.styles';
+
+function Header() {
     return (
-        <header className="header">
-            <h1>Biblioteca Musical</h1>
-            <p>Mi colección de canciones</p>
-        </header>
+        <HeaderContainer>
+            <Title>Biblioteca Musical</Title>
+
+            <Navigation>
+                <NavLink as={Link} to="/">
+                    Inicio
+                </NavLink>
+            </Navigation>
+        </HeaderContainer>
     );
-};
+}
 
 export default Header;

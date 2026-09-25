@@ -1,19 +1,20 @@
 import React from 'react';
 
-import './styles.css';
+import {
+    SongContainer,
+    SongTitle,
+    SongInfo
+} from './Song.styles';
 
 const Song = ({ title, artist, album, year }) => {
 
     return (
-        <article className="song">
-            <h3>{title}</h3>
-
-            <p>Artista: {artist}</p>
-
-            <p>Álbum: {album}</p>
-
-            <p>Año: {year}</p>
-        </article>
+        <SongContainer>
+            <SongTitle>{title}</SongTitle>
+            <SongInfo>Artista: {artist}</SongInfo>
+            <SongInfo>Álbum: {album}</SongInfo>
+            <SongInfo>Año: {year}</SongInfo>
+        </SongContainer>
     );
 };
 
