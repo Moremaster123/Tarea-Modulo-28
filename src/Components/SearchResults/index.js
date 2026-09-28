@@ -1,10 +1,12 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
 import Song from '../Song/Song';
 
 import useFetch from '../../hooks/useFetch';
+import { addSong } from '../../Redux/libraryActions';
 
 import {
     SearchResultsContainer,
@@ -15,7 +17,8 @@ import {
     LibraryButton
 } from './SearchResults.styles';
 
-const SearchResults = ({ artist, onAddToLibrary }) => {
+const SearchResults = ({ artist }) => {
+    const dispatch = useDispatch();
 
     const url = artist
         ? `https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=${encodeURIComponent(artist)}`
@@ -91,14 +94,12 @@ const SearchResults = ({ artist, onAddToLibrary }) => {
                         </DetailsButton>
                     </Link>
 
-                    {onAddToLibrary && (
-                        <LibraryButton
-                            $added={false}
-                            onClick={() => onAddToLibrary(song)}
-                        >
-                            Agregar a mi biblioteca
-                        </LibraryButton>
-                    )}
+                    <LibraryButton
+                        $added={false}
+                        onClick={() => dispatch(addSong(song))}
+                    >
+                        Agregar a mi biblioteca
+                    </LibraryButton>
                 </ResultItem>
             ))}
         </SearchResultsContainer>

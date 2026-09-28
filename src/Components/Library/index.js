@@ -1,27 +1,34 @@
-
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Song from '../Song/Song';
+import { removeSong } from '../../Redux/libraryActions';
 
 import {
     LibraryContainer,
     LibraryTitle
 } from './Library.styles';
 
-const Library = ({ songs }) => {
+const Library = () => {
+    const dispatch = useDispatch();
+    const songs = useSelector(state => state);
 
     return (
         <LibraryContainer>
             <LibraryTitle>Mi biblioteca</LibraryTitle>
 
             {songs.map(song => (
-                <Song
-                    key={song.id}
-                    title={song.title}
-                    artist={song.artist}
-                    album={song.album}
-                    year={song.year}
-                />
+                <div key={song.id}>
+                    <Song
+                        title={song.title}
+                        artist={song.artist}
+                        album={song.album}
+                        year={song.year}
+                    />
+                    <button onClick={() => dispatch(removeSong(song.id))}>
+                        Eliminar
+                    </button>
+                </div>
             ))}
         </LibraryContainer>
     );
