@@ -1,12 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Song from '../Song/Song';
-
-import useFetch from '../../hooks/useFetch';
-import { addSong } from '../../Redux/libraryActions';
+import { addSong } from '../../Redux/slices/librarySlice';
+import { fetchSongs } from '../../Redux/slices/searchSlice';
 
 import {
     SearchResultsContainer,
@@ -17,16 +15,11 @@ import {
     LibraryButton
 } from './SearchResults.styles';
 
-const SearchResults = ({ artist }) => {
+const SearchResults = () => {
     const dispatch = useDispatch();
+    const { results, loading, error, query } = useSelector(state => state.search);
 
-    const url = artist
-        ? `https://www.theaudiodb.com/api/v1/json/123/searchalbum.php?s=${encodeURIComponent(artist)}`
-        : '';
-
-    const { data, loading, error, retryFetch } = useFetch(url);
-
-    if (!artist) {
+    if (!query) {
         return (
             <SearchResultsContainer>
                 <Title>Resultados de búsqueda</Title>
@@ -48,17 +41,15 @@ const SearchResults = ({ artist }) => {
         return (
             <SearchResultsContainer>
                 <Title>Resultados de búsqueda</Title>
-                <Message>
-                    Ocurrió un error al cargar los resultados.
-                </Message>
-                <button onClick={retryFetch}>
+                <Message>{error}</Message>
+                <button onClick={() => dispatch(fetchSongs(query))}>
                     Reintentar
                 </button>
             </SearchResultsContainer>
         );
     }
 
-    if (!data || !data.album || data.album.length === 0) {
+    if (results.length === 0) {
         return (
             <SearchResultsContainer>
                 <Title>Resultados de búsqueda</Title>
@@ -67,19 +58,11 @@ const SearchResults = ({ artist }) => {
         );
     }
 
-    const songs = data.album.map(album => ({
-        id: album.idAlbum,
-        title: album.strAlbum,
-        artist: album.strArtist,
-        album: album.strAlbum,
-        year: album.intYearReleased
-    }));
-
     return (
         <SearchResultsContainer>
             <Title>Resultados de búsqueda</Title>
 
-            {songs.map(song => (
+            {results.map(song => (
                 <ResultItem key={song.id}>
                     <Song
                         title={song.title}

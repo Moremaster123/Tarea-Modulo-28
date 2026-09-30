@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -21,26 +21,20 @@ const MainContent = styled.main`
 `;
 
 function App() {
-    const [artist, setArtist] = useState('');
-
-    const handleSearch = (searchArtist) => {
-        setArtist(searchArtist);
-    };
-
     return (
         <BrowserRouter>
             <AppContainer>
                 <Header />
 
                 <MainContent>
-                    <SearchBar onSearch={handleSearch} />
+                    <SearchBar />
 
                     <Routes>
                         <Route
                             path="/"
                             element={
                                 <>
-                                    <SearchResults artist={artist} />
+                                    <SearchResults />
                                     <Library />
                                 </>
                             }

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchSongs } from '../../Redux/slices/searchSlice';
 import {
     SearchContainer,
     SearchForm,
@@ -6,7 +8,8 @@ import {
     SearchButton
 } from './SearchBar.styles';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
+    const dispatch = useDispatch();
     const [artist, setArtist] = useState('');
 
     const handleSubmit = (event) => {
@@ -16,7 +19,7 @@ const SearchBar = ({ onSearch }) => {
             return;
         }
 
-        onSearch(artist.trim());
+        dispatch(fetchSongs(artist.trim()));
     };
 
     return (

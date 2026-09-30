@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Song from '../Song/Song';
-import { removeSong } from '../../Redux/libraryActions';
+import { removeSong } from '../../Redux/slices/librarySlice';
 
 import {
     LibraryContainer,
@@ -11,7 +11,7 @@ import {
 
 const Library = () => {
     const dispatch = useDispatch();
-    const songs = useSelector(state => state);
+    const songs = useSelector(state => state.library);
 
     return (
         <LibraryContainer>
