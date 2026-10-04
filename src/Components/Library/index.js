@@ -17,19 +17,23 @@ const Library = () => {
         <LibraryContainer>
             <LibraryTitle>Mi biblioteca</LibraryTitle>
 
-            {songs.map(song => (
-                <div key={song.id}>
-                    <Song
-                        title={song.title}
-                        artist={song.artist}
-                        album={song.album}
-                        year={song.year}
-                    />
-                    <button onClick={() => dispatch(removeSong(song.id))}>
-                        Eliminar
-                    </button>
-                </div>
-            ))}
+            {songs.length === 0 ? (
+                <p>No hay canciones en tu biblioteca</p>
+            ) : (
+                songs.map(song => (
+                    <div key={song.id}>
+                        <Song
+                            title={song.title}
+                            artist={song.artist}
+                            album={song.album}
+                            year={song.year}
+                        />
+                        <button onClick={() => dispatch(removeSong(song.id))}>
+                            Eliminar
+                        </button>
+                    </div>
+                ))
+            )}
         </LibraryContainer>
     );
 };
